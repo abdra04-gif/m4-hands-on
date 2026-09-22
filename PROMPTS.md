@@ -1,6 +1,7 @@
 # Session 4A: AI-assisted debugging
 
 Repository: https://github.com/abdra04-gif/m4-hands-on
+Pull request (Session 4B commits): https://github.com/abdra04-gif/m4-hands-on/pull/1
 
 ## Part A: Explain the stack trace
 
@@ -185,3 +186,9 @@ Commit: `2684293 Fix SpotBugs EI_EXPOSE_REP2 / EI_EXPOSE_REP on Order`.
 ## Part D: Reflection
 
 Cyclomatic complexity of `quote` dropped from 23 to 19 (PMD-measured), a reduction of 4 — exactly the four decision points (`years>=5`, `years>=3`, `years>=1`, `loyaltyRate>0.0`) that moved into `applyLoyaltyDiscount`. The SpotBugs fix needed a mix of both: the AI's explanation of `EI_EXPOSE_REP2`/`EI_EXPOSE_REP` was enough to know *what* to change (add a defensive copy), but confirming it was *safe* — that no test or caller mutates the `lines` list after construction — required reading the surrounding code myself rather than trusting the explanation alone. One rejected refactor: the AI also suggested replacing the promo-code `if`/`else if` chain (step 3 of `quote`) with a `Map<String, Double>` lookup from code to discount rate. I rejected it because `VIP20` is not a pure code-to-rate mapping — it only applies when `customer.loyaltyYears() >= 3` — so a flat map would either drop that eligibility check (a real behaviour change) or need an ugly special case bolted back on next to the map, which ends up no simpler than the existing `if` chain.
+
+## Deliverables
+
+- Branch: `main` (same branch as Session 4A), pushed to https://github.com/abdra04-gif/m4-hands-on.
+- Pull request with the two additional commits (extract-method refactor `ea5d0e7` + SpotBugs fix `2684293`, plus the supporting Makefile/PMD-SpotBugs wiring `e245cc8` and this PROMPTS.md update): https://github.com/abdra04-gif/m4-hands-on/pull/1 (base branch `session-4a-baseline` = state at the end of Session 4A, head `main`).
+- PROMPTS.md (this file) containing the ranking, the applied refactor, and the reflection.
