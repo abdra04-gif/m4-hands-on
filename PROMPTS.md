@@ -40,9 +40,11 @@ This changes only the boundary case of exactly 5 loyalty years and leaves all ot
 
 ### Verification
 
-Applied the one-line patch and ran `make test`.
+Before fix: `make test` → 9 tests successful, 1 test failed (`quotesDiscountForLoyalCustomer`, expected `90.0` but got `95.0`).
 
-Result: 10 tests started, 10 tests successful, 0 tests failed.
+Applied the one-line patch and ran `make test` again.
+
+After fix: `make test` → 10 tests started, 10 tests successful, 0 tests failed.
 
 ## Part C: Reflection
 
